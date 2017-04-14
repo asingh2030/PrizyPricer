@@ -21,7 +21,7 @@ import com.prizy.product.dto.ProductResponseDTO;
 import com.prizy.product.repo.ProductRepository;
 import com.prizy.product.service.ProductService;
 import com.prizy.store.dao.StoreProductDAO;
-import com.prizy.store.dao.StoreProductKey;
+import com.prizy.store.dto.StoreResponseDTO;
 import com.prizy.store.repo.StoreProductRepository;
 import com.prizy.store.service.StoreService;
 
@@ -103,15 +103,22 @@ public class ProductServiceImpl implements ProductService {
 		ProductDAO dao = convertDTOToDAO(dto);
 		dao = productRepository.save(dao);
 		if(dto.getStoreUUID() != null){
-			storeService.findByUUID(dto.getStoreUUID());
-			StoreProductDAO spDAO = new StoreProductDAO();
-			StoreProductKey key = new StoreProductKey();
-			key.setProductUUID(dao.getUuid());
-			key.setStoreUUID(dto.getStoreUUID());
-			spDAO.setKey(key);
-			storeProductRepository.save(spDAO);
+			saveStoreProduct(dto, dao);
 		}
 		return convertDAOToDTO(dao);
+	}
+
+	private void saveStoreProduct(ProductInputDTO dto, ProductDAO dao) throws ObjectNotFoundException {
+		StoreResponseDTO storeDAO = storeService.findByUUID(dto.getStoreUUID());
+		if(storeDAO == null){
+			throw new ObjectNotFoundException("Given store not present "+dto.getStoreUUID());
+		}
+		StoreProductDAO spDAO = new StoreProductDAO();
+//		StoreProductKey key = new StoreProductKey();
+		spDAO.setProductUUID(dao.getUuid());
+		spDAO.setStoreUUID(dto.getStoreUUID());
+//		spDAO.setKey(key);
+		storeProductRepository.save(spDAO);
 	}
 
 	private ProductDAO convertDTOToDAO(ProductInputDTO dto) {
@@ -152,6 +159,9 @@ public class ProductServiceImpl implements ProductService {
 		dao.setUuid(productDAO.getUuid());
 		dao.getPriceSet().addAll(productDAO.getPriceSet());
 		ProductDAO savedDAO = productRepository.save(dao);
+		if(dto.getStoreUUID() != null){
+			saveStoreProduct(dto, savedDAO);
+		}
 		return convertDAOToDTO(savedDAO);
 	}
 	@Transactional

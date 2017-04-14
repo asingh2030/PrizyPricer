@@ -3,15 +3,12 @@ package com.prizy.store.dao;
 import java.io.Serializable;
 import java.util.UUID;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class StoreProductKey implements Serializable{
 	private static final long serialVersionUID = 6452454314446346906L;
-	@Column
 	private UUID storeUUID;
-	@Column
 	private UUID productUUID;
 	public UUID getStoreUUID() {
 		return storeUUID;

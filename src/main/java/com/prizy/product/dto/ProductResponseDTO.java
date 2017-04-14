@@ -1,7 +1,7 @@
 package com.prizy.product.dto;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class ProductResponseDTO implements Serializable{
@@ -9,7 +9,7 @@ public class ProductResponseDTO implements Serializable{
 	private UUID uuid;
 	private String barCode;
 	private String name;
-	private List<Serializable> storeList;
+	private Set<UUID> stores;
 	private String model;
 	private String description;
 	private Double averagePrice;
@@ -29,11 +29,11 @@ public class ProductResponseDTO implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public List<Serializable> getStoreList() {
-		return storeList;
+	public Set<UUID> getStores() {
+		return stores;
 	}
-	public void setStoreList(List<Serializable> storeList) {
-		this.storeList = storeList;
+	public void setStores(Set<UUID> stores) {
+		this.stores = stores;
 	}
 	public String getModel() {
 		return model;
@@ -73,8 +73,8 @@ public class ProductResponseDTO implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "ProductResponseDTO [uuid=" + uuid + ", barCode=" + barCode + ", name=" + name + ", storeList="
-				+ storeList + ", model=" + model + ", description=" + description + ", averagePrice=" + averagePrice
+		return "ProductResponseDTO [uuid=" + uuid + ", barCode=" + barCode + ", name=" + name 
+				+ ", model=" + model + ", description=" + description + ", averagePrice=" + averagePrice
 				+ ", lowestPrice=" + lowestPrice + ", highestPrice=" + highestPrice + ", idealPrice=" + idealPrice
 				+ "]";
 	}

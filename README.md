@@ -14,7 +14,19 @@ Will add in future Google location service to locate store.
 we can test this app using Junit test cases and Swagger UI.
 
 # Note
--Please use default username 'user' and password as genrated when system starts to test from swagger.
+-Please use default username 'user' and password as generated when system starts to test from swagger.
 swagger url - http://localhost:8080/swagger-ui.html
 -Because of time limit I am not able to add many test cases.
 
+# Dynamic ideal price service
+To create new formula we need to create new class that implements IdealPriceService and provide calculate method implementation.
+And to use your new formula service you need to create your bean name `Prefix`+IdealPriceService. And provide same prefix of your bean to prizy.ideal.price.service=`prefix`. 
+For example:
+@Service("defaultIdealPriceService")
+public class DefaultIdealPriceServiceImpl implements IdealPriceService {
+	@Override
+	public Double calculate(Set<Double> priceSet) {return null;}
+}
+application.properties
+your bean to prizy.ideal.price.service=`default`.  
+Its like service locator pattern based on property value.

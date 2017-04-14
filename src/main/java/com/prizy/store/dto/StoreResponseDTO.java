@@ -9,13 +9,13 @@ public class StoreResponseDTO implements Serializable{
 	private String name;
 	private UUID uuid;
 	private Address address;
-	private Set<Serializable> objects;
+	private Set<UUID> products;
 	
-	public Set<Serializable> getObjects() {
-		return objects;
+	public Set<UUID> getProducts() {
+		return products;
 	}
-	public void setObjects(Set<Serializable> objects) {
-		this.objects = objects;
+	public void setProducts(Set<UUID> objects) {
+		this.products = objects;
 	}
 	public String getName() {
 		return name;

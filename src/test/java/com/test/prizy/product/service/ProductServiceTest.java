@@ -131,4 +131,34 @@ public class ProductServiceTest {
 		dto.setUuid(product1UUID);
 		productService.create(dto);
 	}
+	
+	@Test
+	public void testUpdateProduct() throws ObjectNotFoundException{
+		ProductInputDTO dto = new ProductInputDTO();
+		dto.setBarcode(product1Barcode);
+		dto.setDescription("Apple-Play good phone.");
+		dto.setManufacturer("APPLE");
+		dto.setModel("Apple-X-Play");
+		dto.setName("Apple-X-Play");
+		dto.setNotes(".5 inch screen.");
+		dto.setPrice(4000.00D);
+		dto.setUuid(product1UUID);
+		ProductResponseDTO dao = productService.update(product1Barcode, dto);
+		Assert.assertNotNull(dao);
+		Assert.assertEquals(dto.getName(), dao.getName());
+		Assert.assertEquals(dto.getUuid(), dao.getUuid());
+	}
+	@Test(expected=ObjectNotFoundException.class)
+	public void testUpdateProductFailure() throws ObjectNotFoundException{
+		ProductInputDTO dto = new ProductInputDTO();
+		dto.setBarcode("45");
+		dto.setDescription("Apple-Play good phone.");
+		dto.setManufacturer("APPLE");
+		dto.setModel("Apple-X-Play");
+		dto.setName("Apple-X-Play");
+		dto.setNotes(".5 inch screen.");
+		dto.setPrice(4000.00D);
+		dto.setUuid(UUID.randomUUID());
+		productService.update(dto.getBarcode(), dto);
+	}
 }

@@ -14,5 +14,5 @@ public interface StoreProductRepository extends CrudRepository<StoreProductDAO, 
 	@Query(value="SELECT * from store_product where product_uuid=:#{#productUuid.toString()}", nativeQuery=true)
 	List<StoreProductDAO> findByProductUuid(@Param("productUuid") UUID productUuid);
 	@Query(value="SELECT * from store_product where store_uuid=:#{#storeUuid.toString()} and product_uuid=:#{#productUuid.toString()}", nativeQuery=true)
-	StoreProductDAO findByStoreUuidAndProductUuid(UUID storeUuid, UUID productUuid);
+	StoreProductDAO findByStoreUuidAndProductUuid(@Param("storeUuid") UUID storeUuid, @Param("productUuid") UUID productUuid);
 }

@@ -2,6 +2,7 @@ package com.prizy.store.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -14,7 +15,6 @@ import com.prizy.exception.ObjectNotFoundException;
 import com.prizy.store.dao.AddressDAO;
 import com.prizy.store.dao.StoreDAO;
 import com.prizy.store.dao.StoreProductDAO;
-import com.prizy.store.dao.StoreProductKey;
 import com.prizy.store.dto.Address;
 import com.prizy.store.dto.StoreInputDTO;
 import com.prizy.store.dto.StoreResponseDTO;
@@ -48,9 +48,8 @@ public class StoreServiceImpl implements StoreService {
 		StoreProductDAO dao = storeProductRepository.findByStoreUuidAndProductUuid(storeUUID, productUUID);
 		if(dao == null){
 			StoreProductDAO spDAO = new StoreProductDAO();
-			StoreProductKey key = new StoreProductKey();
-			key.setProductUUID(productUUID);
-			key.setStoreUUID(storeUUID);
+			spDAO.setProductUUID(productUUID);
+			spDAO.setStoreUUID(storeUUID);
 			dao = storeProductRepository.save(spDAO);
 		}
 		return dao;
@@ -63,6 +62,12 @@ public class StoreServiceImpl implements StoreService {
 		AddressDAO address = dao.getAddress();
 		if(address != null){
 			dto.setAddress(convertAddressDAOToDTO(address));
+		}
+		List<StoreProductDAO> spDAOList = storeProductRepository.findByStoreUuid(dao.getUuid());
+		if(spDAOList != null && !spDAOList.isEmpty()){
+			Set<UUID> products = new HashSet<>();
+			spDAOList.forEach(spDAO -> products.add(spDAO.getProductUUID()));
+			dto.setProducts(products);
 		}
 		return dto;
 	}
@@ -132,7 +137,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public boolean addProducts(UUID storeUUID, List<UUID> productUUIDList) {
+	public boolean addProducts(UUID storeUUID, Set<UUID> productUUIDList) {
 		productUUIDList.forEach(productUUID -> {
 				saveStoreProduct(storeUUID, productUUID);
 		});

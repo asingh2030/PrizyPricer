@@ -80,8 +80,9 @@ CREATE TABLE `product_price` (
 --
 
 CREATE TABLE `store_product` (
-  `productuuid` binary(255) NOT NULL,
-  `storeuuid` binary(255) NOT NULL,
-  PRIMARY KEY (`productuuid`,`storeuuid`)
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_uuid` binary(255) NOT NULL,
+  `store_uuid` binary(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
