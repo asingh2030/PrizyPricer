@@ -2,6 +2,7 @@
 Store and product entities. with Spring boot, mvc, hibernate, mysql, test case, swagger and dynamic price calculation.
 # Store Service
 CRUD operation with add product.
+
 # Product Service
 CRUD operation with add price, get dynamic calculated ideal price.
 
